@@ -34,7 +34,12 @@ public class BcpProductoService {
         return productoAlmacenamientoGestor.registrarProductoProveedor(body);
     }
 
-    public List<BcpInventario> buscarProductosByProveedor(Long codigo) {
-        return productoConsultaGestor.buscarProductosByProveedor(codigo);
+    public Map<String, Object> buscarProductosByProveedor() {
+        return productoConsultaGestor.buscarProductosByProveedor();
+    }
+
+    @Transactional
+    public List<BcpProducto> actualizarProducto(Map<String, Object> body) {
+        return productoAlmacenamientoGestor.actualizarProducto(body);
     }
 }

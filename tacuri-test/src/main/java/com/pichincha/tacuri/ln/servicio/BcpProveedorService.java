@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author fmtacuri
  */
 @Service
@@ -28,7 +27,7 @@ public class BcpProveedorService {
     }
 
     @Transactional
-    public List<BcpProveedor>  registrarProveedor(Map<String, Object> body) {
+    public List<BcpProveedor> registrarProveedor(Map<String, Object> body) {
         return proveedorAlmacenamientoGestor.registrarProveedor(body);
     }
 
