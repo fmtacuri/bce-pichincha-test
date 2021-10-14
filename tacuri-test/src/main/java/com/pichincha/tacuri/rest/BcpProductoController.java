@@ -32,8 +32,8 @@ public class BcpProductoController {
     }
 
     @GetMapping("/buscar-proveedor-producto")
-    public ResponseEntity<Map<String, Object>> buscarProductosByProveedor() {
-        return new ResponseEntity<>(productoService.buscarProductosByProveedor(), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> buscarProductosAndStockByProveedor() {
+        return new ResponseEntity<>(productoService.buscarProductosAndStockByProveedor(), HttpStatus.OK);
     }
 
     @PutMapping("/actualizar-producto")
