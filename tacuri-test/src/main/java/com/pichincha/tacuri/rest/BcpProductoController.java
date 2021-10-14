@@ -34,4 +34,5 @@ public class BcpProductoController {
     public ResponseEntity<List<BcpInventario>> registrarProductoProveedor(@RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(productoService.registrarProductoProveedor(body), HttpStatus.OK);
     }
+
 }
