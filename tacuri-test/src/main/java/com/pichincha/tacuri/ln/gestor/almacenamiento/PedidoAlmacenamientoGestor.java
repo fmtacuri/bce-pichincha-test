@@ -2,9 +2,12 @@ package com.pichincha.tacuri.ln.gestor.almacenamiento;
 
 import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.entity.BcpDetPedido;
+import com.pichincha.tacuri.ln.entity.BcpDetPedidoPK;
 import com.pichincha.tacuri.ln.entity.BcpHeadPedido;
 import com.pichincha.tacuri.ln.gestor.consulta.BcpProductoConsultaGestor;
 import com.pichincha.tacuri.ln.gestor.consulta.PedidosConsultaGestor;
+import com.pichincha.tacuri.ln.repositorio.BcpDetPedidoRepository;
+import com.pichincha.tacuri.ln.repositorio.BcpHeadPedidoRepository;
 import com.pichincha.tacuri.util.BceConstant;
 import com.pichincha.tacuri.util.JsonUtils;
 import lombok.extern.log4j.Log4j2;
@@ -32,6 +35,12 @@ public class PedidoAlmacenamientoGestor {
 
     @Autowired
     private BcpProductoConsultaGestor productoConsultaGestor;
+
+    @Autowired
+    private BcpHeadPedidoRepository cabeceraPedido;
+
+    @Autowired
+    private BcpDetPedidoRepository detallePedido;
 
     public Map<String, Object> registrarPedido(Map<String, Object> body) {
         Map<String, Object> response = new HashMap<>();
@@ -81,5 +90,22 @@ public class PedidoAlmacenamientoGestor {
         }
 
         return response;
+    }
+
+    public void eliminarPedido(Long id) {
+        try {
+            var listaDetalles = detallePedido.buscarPedidoById(id);
+            listaDetalles.forEach(ld -> {
+                BcpDetPedidoPK pedidoPK = new BcpDetPedidoPK();
+                pedidoPK.setCodFactura(ld.getCodFactura());
+                pedidoPK.setNoFila(ld.getNoFila());
+                detallePedido.deleteById(pedidoPK);
+            });
+
+            cabeceraPedido.deleteById(id);
+
+        } catch (Exception e) {
+            throw new CustomException("No puede eliminar el registro indicado!");
+        }
     }
 }
