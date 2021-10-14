@@ -42,4 +42,12 @@ public class BcpProductoService {
     public List<BcpProducto> actualizarProducto(Map<String, Object> body) {
         return productoAlmacenamientoGestor.actualizarProducto(body);
     }
+
+    public List<BcpInventario> buscarAllInventario() {
+        return productoConsultaGestor.buscarAllInventario();
+    }
+
+    public List<BcpProducto> buscarAllProductos() {
+        return productoConsultaGestor.buscarAllProductos();
+    }
 }
