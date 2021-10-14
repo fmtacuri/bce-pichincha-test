@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author fmtacuri
  */
 @Component
@@ -27,13 +26,13 @@ public class BcpProveedorAlmacenamientoGestor {
     @Autowired
     private BcpProveedorConsultaGestor proveedorConsultaGestor;
 
-    public List<BcpProveedor>  registrarProveedor(Map<String, Object> body){
+    public List<BcpProveedor> registrarProveedor(Map<String, Object> body) {
         List<BcpProveedor> listaProv;
         try {
             BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
             em.persist(proveedor);
             listaProv = proveedorConsultaGestor.buscarAllProveedores();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("No se a podido guardar proveedor: " + body);
             throw new CustomException("Error en registrarProveedor");
         }
@@ -41,13 +40,13 @@ public class BcpProveedorAlmacenamientoGestor {
         return listaProv;
     }
 
-    public List<BcpProveedor>  actualizarProveedor(Map<String, Object> body){
+    public List<BcpProveedor> actualizarProveedor(Map<String, Object> body) {
         List<BcpProveedor> listaProv;
         try {
             BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
             em.merge(proveedor);
             listaProv = proveedorConsultaGestor.buscarAllProveedores();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("No se a podido actualizar proveedor: " + body);
             throw new CustomException("Error en actualizarProveedor");
         }

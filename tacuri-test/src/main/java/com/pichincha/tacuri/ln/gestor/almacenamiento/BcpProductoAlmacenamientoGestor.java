@@ -55,4 +55,18 @@ public class BcpProductoAlmacenamientoGestor {
 
         return listaProv;
     }
+
+    public List<BcpProducto> actualizarProducto(Map<String, Object> body){
+        List<BcpProducto> listaProv;
+        try {
+            BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
+            em.merge(producto);
+            listaProv = productoConsultaGestor.buscarAllProductos();
+        } catch (Exception e){
+            log.error("No se a podido actualizar producto: " + body);
+            throw new CustomException("Error en actualizarProducto");
+        }
+
+        return listaProv;
+    }
 }

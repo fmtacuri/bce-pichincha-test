@@ -31,8 +31,13 @@ public class BcpProductoController {
         return new ResponseEntity<>(productoService.registrarProductoProveedor(body), HttpStatus.OK);
     }
 
-    @GetMapping("/buscar-proveedor-producto/{codigo}")
-    public ResponseEntity<List<BcpInventario>> buscarProductosByProveedor(@PathVariable("codigo") Long codigo) {
-        return new ResponseEntity<>(productoService.buscarProductosByProveedor(codigo), HttpStatus.OK);
+    @GetMapping("/buscar-proveedor-producto")
+    public ResponseEntity<Map<String, Object>> buscarProductosByProveedor() {
+        return new ResponseEntity<>(productoService.buscarProductosByProveedor(), HttpStatus.OK);
+    }
+
+    @PutMapping("/actualizar-producto")
+    public ResponseEntity<List<BcpProducto>> actualizarProducto(@RequestBody Map<String, Object> body) {
+        return new ResponseEntity<>(productoService.actualizarProducto(body), HttpStatus.OK);
     }
 }
