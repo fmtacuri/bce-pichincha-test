@@ -3,6 +3,7 @@ package com.pichincha.tacuri.ln.servicio;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.gestor.almacenamiento.BcpProductoAlmacenamientoGestor;
+import com.pichincha.tacuri.ln.gestor.consulta.BcpProductoConsultaGestor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class BcpProductoService {
     @Autowired
     private BcpProductoAlmacenamientoGestor productoAlmacenamientoGestor;
 
+    @Autowired
+    private BcpProductoConsultaGestor productoConsultaGestor;
+
     @Transactional
     public List<BcpProducto> registrarProducto(Map<String, Object> body) {
         return productoAlmacenamientoGestor.registrarProducto(body);
@@ -28,5 +32,9 @@ public class BcpProductoService {
     @Transactional
     public List<BcpInventario> registrarProductoProveedor(Map<String, Object> body) {
         return productoAlmacenamientoGestor.registrarProductoProveedor(body);
+    }
+
+    public List<BcpInventario> buscarProductosByProveedor(Long codigo) {
+        return productoConsultaGestor.buscarProductosByProveedor(codigo);
     }
 }
