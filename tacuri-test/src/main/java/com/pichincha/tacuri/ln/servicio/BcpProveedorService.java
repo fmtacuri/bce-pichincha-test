@@ -35,4 +35,8 @@ public class BcpProveedorService {
     public List<BcpProveedor> actualizarProveedor(Map<String, Object> body) {
         return proveedorAlmacenamientoGestor.actualizarProveedor(body);
     }
+
+    public List<BcpProveedor> buscarAllProveedores() {
+        return proveedorConsultaGestor.buscarAllProveedores();
+    }
 }

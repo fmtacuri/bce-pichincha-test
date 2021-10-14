@@ -30,7 +30,7 @@ public class PedidoController {
     }
 
     @DeleteMapping("eliminar-pedido/{id}")
-    public ResponseEntity<String> deleteRol(@PathVariable("id") Long id) {
+    public ResponseEntity<String> eliminarPedido(@PathVariable("id") Long id) {
         pedidosService.eliminarPedido(id);
         return new ResponseEntity<>("OK: Registro eliminado correctamente.", HttpStatus.OK);
     }
