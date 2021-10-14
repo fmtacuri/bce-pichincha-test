@@ -28,4 +28,9 @@ public class PedidosService {
     public Map<String, Object> recuperarPedidosPorClienteAndFecha(Map<String, Object> body) {
         return pedidosConsultaGestor.recuperarPedidosPorClienteAndFecha(body);
     }
+
+    @Transactional
+    public void eliminarPedido(Long id) {
+        pedidoAlmacenamientoGestor.eliminarPedido(id);
+    }
 }
