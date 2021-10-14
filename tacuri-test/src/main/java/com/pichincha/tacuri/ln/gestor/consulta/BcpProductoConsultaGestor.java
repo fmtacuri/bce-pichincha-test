@@ -43,7 +43,7 @@ public class BcpProductoConsultaGestor {
         listaProveedores.forEach(lp -> {
             Map<String, Object> mapProveedor = new HashMap<>();
             mapProveedor.put("proveedor", lp);
-            mapProveedor.put("listaProductos", inventarioRepository.buscarProductosByProveedor(lp.getCodProveedor()));
+            mapProveedor.put("listaProductos", inventarioRepository.buscarProductosByProveedorProyection(lp.getCodProveedor()));
             response.put(lp.getCodProveedor().toString(), mapProveedor);
         });
 
