@@ -37,7 +37,7 @@ public class BcpProductoConsultaGestor {
         return inventarioRepository.buscarAllInventario();
     }
 
-    public Map<String, Object> buscarProductosByProveedor() {
+    public Map<String, Object> buscarProductosAndStockByProveedor() {
         Map<String, Object> response = new HashMap<>();
         List<BcpProveedor> listaProveedores = proveedorConsultaGestor.buscarAllProveedores();
         listaProveedores.forEach(lp -> {
@@ -48,5 +48,9 @@ public class BcpProductoConsultaGestor {
         });
 
         return response;
+    }
+
+    public BcpInventario buscarProductosByCodigo(String codigo) {
+        return inventarioRepository.buscarProductosByCodigo(codigo);
     }
 }

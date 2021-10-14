@@ -23,4 +23,8 @@ public interface BcpInventarioRepository extends JpaRepository<BcpInventario, St
             "from bcp_producto bp inner join bcp_inventario bi on bp.cod_producto = bi.cod_producto " +
             "where bi.cod_proveedor = :codigo", nativeQuery = true)
     List<ProductoProyection> buscarProductosByProveedorProyection(@Param("codigo") Long codigo);
+
+    @Query(value = "select p.* from bcp_inventario p " +
+            "where p.id_inventario = :codigo", nativeQuery = true)
+    BcpInventario buscarProductosByCodigo(@Param("codigo") String codigo);
 }

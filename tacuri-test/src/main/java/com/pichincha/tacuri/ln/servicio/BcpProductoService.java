@@ -34,8 +34,8 @@ public class BcpProductoService {
         return productoAlmacenamientoGestor.registrarProductoProveedor(body);
     }
 
-    public Map<String, Object> buscarProductosByProveedor() {
-        return productoConsultaGestor.buscarProductosByProveedor();
+    public Map<String, Object> buscarProductosAndStockByProveedor() {
+        return productoConsultaGestor.buscarProductosAndStockByProveedor();
     }
 
     @Transactional
