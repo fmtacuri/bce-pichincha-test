@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 @Log4j2
 public class BcpProductoConsultaGestor {
+
     @Autowired
     private BcpProductoRepository productoRepository;
 
@@ -29,5 +30,9 @@ public class BcpProductoConsultaGestor {
 
     public List<BcpInventario> buscarAllInventario() {
         return inventarioRepository.buscarAllInventario();
+    }
+
+    public List<BcpInventario> buscarProductosByProveedor(Long codigo) {
+        return inventarioRepository.buscarProductosByProveedor(codigo);
     }
 }
