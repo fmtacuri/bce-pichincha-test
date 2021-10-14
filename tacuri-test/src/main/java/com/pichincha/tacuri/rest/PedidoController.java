@@ -26,4 +26,9 @@ public class PedidoController {
     public ResponseEntity<Map<String, Object>> registrarPedido(@RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(pedidosService.registrarPedido(body), HttpStatus.OK);
     }
+
+    @PostMapping("/buscar-pedidos-fecha")
+    public ResponseEntity<Map<String, Object>> recuperarPedidosPorClienteAndFecha(@RequestBody Map<String, Object> body) {
+        return new ResponseEntity<>(pedidosService.recuperarPedidosPorClienteAndFecha(body), HttpStatus.OK);
+    }
 }
