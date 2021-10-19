@@ -33,10 +33,10 @@ class PedidoControllerTest extends MockitoFactory {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
-        Mockito.doNothing().when(service).eliminarPedido(1L);
-        ResponseEntity<?> responseEntity = controller.eliminarPedido(1L);
+        Mockito.doNothing().when(service).deletePedido(1L);
+        ResponseEntity<?> responseEntity = controller.deletePedido(1L);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).eliminarPedido(1L);
+        Mockito.verify(service).deletePedido(1L);
     }
 }

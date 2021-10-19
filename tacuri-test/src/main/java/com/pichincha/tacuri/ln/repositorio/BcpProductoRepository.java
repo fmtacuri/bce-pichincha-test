@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- *
  * @author fmtacuri
+ * @version 1.1
  */
 @Repository
 public interface BcpProductoRepository extends JpaRepository<BcpProducto, String> {
 
     @Query(value = "select p.* from bcp_producto p", nativeQuery = true)
-    List<BcpProducto> buscarAllProductos();
+    List<BcpProducto> findBcpProductoAll();
 }

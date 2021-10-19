@@ -1,8 +1,11 @@
 package com.pichincha.tacuri.productos;
 
 import com.pichincha.tacuri.MockitoFactory;
+import com.pichincha.tacuri.ln.entity.BcpInventario;
+import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.servicio.BcpProductoService;
 import com.pichincha.tacuri.rest.BcpProductoController;
+import com.pichincha.tacuri.util.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -32,7 +35,7 @@ class ProductosControllerTest extends MockitoFactory {
     private BcpProductoService service;
 
     @Test
-    void registrarProductoProveedor() {
+    void saveBcpInventario() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -43,17 +46,17 @@ class ProductosControllerTest extends MockitoFactory {
         body.put("codProducto", "A1");
         body.put("codProveedor", 1);
 
-        var listaProd = service.buscarAllInventario();
+        BcpInventario inventario = JsonUtils.mapToObject(body, BcpInventario.class);
 
-        Mockito.when(service.registrarProductoProveedor(body)).thenReturn(listaProd);
-        ResponseEntity<?> responseEntity = controller.registrarProductoProveedor(body);
+        Mockito.when(service.saveBcpInventario(body)).thenReturn(inventario);
+        ResponseEntity<?> responseEntity = controller.saveBcpInventario(body);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).registrarProductoProveedor(body);
+        Mockito.verify(service).saveBcpInventario(body);
     }
 
     @Test
-    void actualizarProducto() {
+    void updateBcpProducto() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -61,12 +64,12 @@ class ProductosControllerTest extends MockitoFactory {
         body.put("descripcion", "EDIT PODUCTOS");
         body.put("codProducto", "A1");
 
-        var listaProd = service.buscarAllProductos();
+        BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
 
-        Mockito.when(service.actualizarProducto(body)).thenReturn(listaProd);
-        ResponseEntity<?> responseEntity = controller.actualizarProducto(body);
+        Mockito.when(service.updateBcpProducto(body)).thenReturn(producto);
+        ResponseEntity<?> responseEntity = controller.updateBcpProducto(body);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).actualizarProducto(body);
+        Mockito.verify(service).updateBcpProducto(body);
     }
 }

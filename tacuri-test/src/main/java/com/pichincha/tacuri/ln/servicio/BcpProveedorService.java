@@ -1,42 +1,56 @@
 package com.pichincha.tacuri.ln.servicio;
 
+import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.gestor.almacenamiento.BcpProveedorAlmacenamientoGestor;
-import com.pichincha.tacuri.ln.gestor.consulta.BcpProveedorConsultaGestor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pichincha.tacuri.ln.repositorio.BcpProveedorRepository;
+import com.pichincha.tacuri.util.JsonUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * @author fmtacuri
+ * @version 1.1
  */
 @Service
+@RequiredArgsConstructor
+@Log4j2
 public class BcpProveedorService {
 
-    @Autowired
-    private BcpProveedorConsultaGestor proveedorConsultaGestor;
+    private final BcpProveedorRepository proveedorRepository;
 
-    @Autowired
-    private BcpProveedorAlmacenamientoGestor proveedorAlmacenamientoGestor;
-
-    public BcpProveedor buscarProveedorByCodigo(Long codigo) {
-        return proveedorConsultaGestor.buscarProveedorByCodigo(codigo);
+    public BcpProveedor findBcpProveedorByCodProveedor(Long codigo) {
+        return proveedorRepository.findBcpProveedorByCodProveedor(codigo);
     }
 
     @Transactional
-    public List<BcpProveedor> registrarProveedor(Map<String, Object> body) {
-        return proveedorAlmacenamientoGestor.registrarProveedor(body);
+    public BcpProveedor saveBcpProveedor(Map<String, Object> body) {
+        BcpProveedor bcpProveedor;
+        try {
+            BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
+            bcpProveedor = proveedorRepository.save(proveedor);
+        } catch (Exception e) {
+            log.error("No se a podido guardar proveedor: " + body);
+            throw new CustomException("Error en registrarProveedor");
+        }
+
+        return bcpProveedor;
     }
 
     @Transactional
-    public List<BcpProveedor> actualizarProveedor(Map<String, Object> body) {
-        return proveedorAlmacenamientoGestor.actualizarProveedor(body);
-    }
+    public BcpProveedor updateBcpProveedor(Map<String, Object> body) {
+        BcpProveedor bcpProveedor;
+        try {
+            BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
+            bcpProveedor = proveedorRepository.save(proveedor);
+        } catch (Exception e) {
+            log.error("No se a podido actualizar proveedor: " + body);
+            throw new CustomException("Error en actualizarProveedor");
+        }
 
-    public List<BcpProveedor> buscarAllProveedores() {
-        return proveedorConsultaGestor.buscarAllProveedores();
+        return bcpProveedor;
     }
 }

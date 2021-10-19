@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- *
  * @author fmtacuri
+ * @version 1.1
  */
 @Repository
 public interface BcpDetPedidoRepository extends JpaRepository<BcpDetPedido, BcpDetPedidoPK> {
 
     @Query(value = "select p.* from bcp_det_pedido p " +
             "where p.cod_factura = :codFactura ", nativeQuery = true)
-    List<BcpDetPedido> buscarPedidoById(@Param("codFactura") Long codFactura);
+    List<BcpDetPedido> findBcpDetPedidoByCodFactura(@Param("codFactura") Long codFactura);
 }
