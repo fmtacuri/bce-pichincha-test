@@ -2,6 +2,7 @@ package com.pichincha.tacuri.rest;
 
 import com.pichincha.tacuri.ln.servicio.PedidosService;
 import com.pichincha.tacuri.util.BceConstant;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,12 @@ public class PedidoController {
     private final PedidosService pedidosService;
 
     @PostMapping("/guardar-pedido")
-    public ResponseEntity<Map<String, Object>> save(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> save(@NotNull @RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(pedidosService.save(body), HttpStatus.OK);
     }
 
     @PostMapping("/buscar-pedidos-fecha")
-    public ResponseEntity<Map<String, Object>> findPedidosByIdClienteAndFecha(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> findPedidosByIdClienteAndFecha(@NotNull @RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(pedidosService.findPedidosByIdClienteAndFecha(body), HttpStatus.OK);
     }
 

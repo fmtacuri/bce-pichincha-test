@@ -3,6 +3,7 @@ package com.pichincha.tacuri.rest;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
 import com.pichincha.tacuri.ln.servicio.BcpProveedorService;
 import com.pichincha.tacuri.util.BceConstant;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class BcpProveedorController {
     private final BcpProveedorService proveedorService;
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<BcpProveedor> findBcpProveedorByCodProveedor(@PathVariable("codigo") Long codigo) {
+    public ResponseEntity<BcpProveedor> findBcpProveedorByCodProveedor(@NotNull @PathVariable("codigo") Long codigo) {
         ResponseEntity response;
         var requestValue = proveedorService.findBcpProveedorByCodProveedor(codigo);
         if (Objects.isNull(requestValue)) {
@@ -36,12 +37,12 @@ public class BcpProveedorController {
     }
 
     @PostMapping("/guardar-proveedor")
-    public ResponseEntity<BcpProveedor> saveBcpProveedor(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpProveedor> saveBcpProveedor(@NotNull @RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(proveedorService.saveBcpProveedor(body), HttpStatus.OK);
     }
 
     @PutMapping("/actualizar-proveedor")
-    public ResponseEntity<BcpProveedor> updateBcpProveedor(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpProveedor> updateBcpProveedor(@NotNull @RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(proveedorService.updateBcpProveedor(body), HttpStatus.OK);
     }
 }

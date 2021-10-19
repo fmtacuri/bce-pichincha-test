@@ -4,6 +4,7 @@ import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.servicio.BcpProductoService;
 import com.pichincha.tacuri.util.BceConstant;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class BcpProductoController {
     private final BcpProductoService productoService;
 
     @PostMapping("/registrar-producto")
-    public ResponseEntity<BcpProducto> saveBcpProducto(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpProducto> saveBcpProducto(@NotNull @RequestBody Map<String, Object> body) {
         ResponseEntity response;
         var requestValue = productoService.saveBcpProducto(body);
         if (Objects.isNull(requestValue)) {
@@ -37,7 +38,7 @@ public class BcpProductoController {
     }
 
     @PostMapping("/registrar-producto-proveedor")
-    public ResponseEntity<BcpInventario> saveBcpInventario(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpInventario> saveBcpInventario(@NotNull @RequestBody Map<String, Object> body) {
         ResponseEntity response;
         var requestValue = productoService.saveBcpInventario(body);
         if (Objects.isNull(requestValue)) {
@@ -55,7 +56,7 @@ public class BcpProductoController {
     }
 
     @PutMapping("/actualizar-producto")
-    public ResponseEntity<BcpProducto> updateBcpProducto(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpProducto> updateBcpProducto(@NotNull @RequestBody Map<String, Object> body) {
         return new ResponseEntity<>(productoService.updateBcpProducto(body), HttpStatus.OK);
     }
 }
