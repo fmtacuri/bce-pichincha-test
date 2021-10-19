@@ -45,7 +45,7 @@ public class PedidosService {
                 String idCliente = body.get("idCliente").toString();
                 Date fecha = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD)
                         .parse(body.get("fecha").toString());
-                Integer contadorFact = cabeceraPedido.countAllBy() + 1;
+                Integer contadorFact = cabeceraPedido.countAllPedidos() + 1;
 
                 BcpHeadPedido cabecera = new BcpHeadPedido();
                 cabecera.setCodFac(contadorFact.longValue());
@@ -54,8 +54,9 @@ public class PedidosService {
                 var cabeceraResponse = cabeceraPedido.save(cabecera);
 
                 listaPedidos.forEach(lp -> {
-                    var productoInventario = inventarioRepository.findBcpInventarioByIdInventario(lp.getCodInventario());
-                    if (productoInventario.getStock() > lp.getCantidad()) {
+                    var productoInventario = inventarioRepository
+                            .findBcpInventarioByIdInventario(lp.getCodInventario()).orElse(null);
+                    if (!Objects.isNull(productoInventario) && productoInventario.getStock() > lp.getCantidad()) {
                         index.getAndIncrement();
                         lp.setCodFactura(contadorFact.longValue());
                         lp.setNoFila(index.get());
@@ -97,7 +98,8 @@ public class PedidosService {
             listaCabeceraPedidos.forEach(lp -> {
                 Map<String, Object> mapProveedor = new HashMap<>();
                 mapProveedor.put("Pedido", lp);
-                mapProveedor.put("DetallePedido", detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac()));
+                mapProveedor.put("DetallePedido", detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac())
+                        .orElse(Collections.emptyList()));
                 response.put(lp.getCodFac().toString(), mapProveedor);
             });
         } catch (Exception e) {
@@ -110,7 +112,8 @@ public class PedidosService {
     @Transactional
     public void deletePedido(Long id) {
         try {
-            var listaDetalles = detallePedido.findBcpDetPedidoByCodFactura(id);
+            var listaDetalles = detallePedido.findBcpDetPedidoByCodFactura(id)
+                    .orElse(Collections.emptyList());
             listaDetalles.forEach(ld -> {
                 BcpDetPedidoPK pedidoPK = new BcpDetPedidoPK();
                 pedidoPK.setCodFactura(ld.getCodFactura());

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author fmtacuri
@@ -34,13 +35,17 @@ public class BcpProductoService {
 
     @Transactional
     public BcpProducto saveBcpProducto(Map<String, Object> body) {
-        BcpProducto bcpProducto;
+        BcpProducto bcpProducto = null;
         try {
             BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
-            bcpProducto = productoRepository.save(producto);
+            var productoFind = productoRepository
+                    .findBcpProductoByCodProducto(producto.getCodProducto()).orElse(null);
+            if (Objects.isNull(productoFind)){
+                bcpProducto = productoRepository.save(producto);
+            }
         } catch (Exception e) {
             log.error("No se a podido guardar producto: " + body);
-            throw new CustomException("Error en registrarProducto");
+            throw new CustomException("Error en saveBcpProducto");
         }
 
         return bcpProducto;
@@ -48,13 +53,17 @@ public class BcpProductoService {
 
     @Transactional
     public BcpInventario saveBcpInventario(Map<String, Object> body) {
-        BcpInventario bcpInventario;
+        BcpInventario bcpInventario = null;
         try {
             BcpInventario inventario = JsonUtils.mapToObject(body, BcpInventario.class);
-            bcpInventario = inventarioRepository.save(inventario);
+            var inventarioFind = inventarioRepository
+                    .findBcpInventarioByIdInventario(inventario.getIdInventario()).orElse(null);
+            if (Objects.isNull(inventarioFind)){
+                bcpInventario = inventarioRepository.save(inventario);
+            }
         } catch (Exception e) {
-            log.error("No se a podido guardar registrarProductoProveedor: " + body);
-            throw new CustomException("Error en registrarProductoProveedor");
+            log.error("No se a podido guardar saveBcpInventario: " + body);
+            throw new CustomException("Error en saveBcpInventario");
         }
 
         return bcpInventario;
@@ -81,7 +90,7 @@ public class BcpProductoService {
             bcpProducto = productoRepository.save(producto);
         } catch (Exception e) {
             log.error("No se a podido actualizar producto: " + body);
-            throw new CustomException("Error en actualizarProducto");
+            throw new CustomException("Error en updateBcpProducto");
         }
 
         return bcpProducto;

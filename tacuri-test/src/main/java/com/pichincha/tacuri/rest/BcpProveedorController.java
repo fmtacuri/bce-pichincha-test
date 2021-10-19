@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author fmtacuri
@@ -23,7 +24,15 @@ public class BcpProveedorController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<BcpProveedor> findBcpProveedorByCodProveedor(@PathVariable("codigo") Long codigo) {
-        return new ResponseEntity<>(proveedorService.findBcpProveedorByCodProveedor(codigo), HttpStatus.OK);
+        ResponseEntity response;
+        var requestValue = proveedorService.findBcpProveedorByCodProveedor(codigo);
+        if (Objects.isNull(requestValue)) {
+            response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(requestValue, HttpStatus.OK);
+        }
+
+        return response;
     }
 
     @PostMapping("/guardar-proveedor")

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author fmtacuri
@@ -23,18 +24,22 @@ public class BcpProveedorService {
     private final BcpProveedorRepository proveedorRepository;
 
     public BcpProveedor findBcpProveedorByCodProveedor(Long codigo) {
-        return proveedorRepository.findBcpProveedorByCodProveedor(codigo);
+        return proveedorRepository.findBcpProveedorByCodProveedor(codigo).orElse(null);
     }
 
     @Transactional
     public BcpProveedor saveBcpProveedor(Map<String, Object> body) {
-        BcpProveedor bcpProveedor;
+        BcpProveedor bcpProveedor = null;
         try {
             BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
-            bcpProveedor = proveedorRepository.save(proveedor);
+            var proveedorFind = proveedorRepository
+                    .findBcpProveedorByCodProveedor(proveedor.getCodProveedor()).orElse(null);
+            if (Objects.isNull(proveedorFind)){
+                bcpProveedor = proveedorRepository.save(proveedor);
+            }
         } catch (Exception e) {
             log.error("No se a podido guardar proveedor: " + body);
-            throw new CustomException("Error en registrarProveedor");
+            throw new CustomException("Error en saveBcpProveedor");
         }
 
         return bcpProveedor;
@@ -48,7 +53,7 @@ public class BcpProveedorService {
             bcpProveedor = proveedorRepository.save(proveedor);
         } catch (Exception e) {
             log.error("No se a podido actualizar proveedor: " + body);
-            throw new CustomException("Error en actualizarProveedor");
+            throw new CustomException("Error en updateBcpProveedor");
         }
 
         return bcpProveedor;
