@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author fmtacuri
@@ -24,12 +25,28 @@ public class BcpProductoController {
 
     @PostMapping("/registrar-producto")
     public ResponseEntity<BcpProducto> saveBcpProducto(@RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(productoService.saveBcpProducto(body), HttpStatus.OK);
+        ResponseEntity response;
+        var requestValue = productoService.saveBcpProducto(body);
+        if (Objects.isNull(requestValue)) {
+            response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(requestValue, HttpStatus.OK);
+        }
+
+        return response;
     }
 
     @PostMapping("/registrar-producto-proveedor")
     public ResponseEntity<BcpInventario> saveBcpInventario(@RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(productoService.saveBcpInventario(body), HttpStatus.OK);
+        ResponseEntity response;
+        var requestValue = productoService.saveBcpInventario(body);
+        if (Objects.isNull(requestValue)) {
+            response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(requestValue, HttpStatus.OK);
+        }
+
+        return response;
     }
 
     @GetMapping("/buscar-proveedor-producto")
