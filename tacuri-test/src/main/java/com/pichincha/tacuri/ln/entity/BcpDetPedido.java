@@ -1,13 +1,14 @@
 package com.pichincha.tacuri.ln.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- *
- * @author Freddy Tacuri
+ * @author fmtacuri
+ * @version 1.1
  */
 @Entity
 @Table(name = "bcp_det_pedido")
@@ -28,9 +29,11 @@ public class BcpDetPedido implements Serializable {
     private float precioVenta;
     @Column(name = "cod_inventario")
     private String codInventario;
+    @JsonIgnore
     @JoinColumn(name = "cod_factura", referencedColumnName = "cod_fac", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private BcpHeadPedido bcpHeadPedido;
+    @JsonIgnore
     @JoinColumn(name = "cod_inventario", referencedColumnName = "id_inventario", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private BcpInventario bcpInventario;

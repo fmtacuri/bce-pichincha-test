@@ -5,8 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- *
- * @author Freddy Tacuri
+ * @author fmtacuri
+ * @version 1.1
  */
 @Data
 public class BcpDetPedidoPK implements Serializable {

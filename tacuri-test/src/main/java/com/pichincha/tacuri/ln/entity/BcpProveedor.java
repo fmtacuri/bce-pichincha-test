@@ -2,12 +2,15 @@ package com.pichincha.tacuri.ln.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- *
- * @author Freddy Tacuri
+ * @author fmtacuri
+ * @version 1.1
  */
 @Entity
 @Table(name = "bcp_proveedor")
