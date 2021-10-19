@@ -1,8 +1,10 @@
 package com.pichincha.tacuri.proveedores;
 
 import com.pichincha.tacuri.MockitoFactory;
+import com.pichincha.tacuri.ln.entity.BcpProveedor;
 import com.pichincha.tacuri.ln.servicio.BcpProveedorService;
 import com.pichincha.tacuri.rest.BcpProveedorController;
+import com.pichincha.tacuri.util.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -32,7 +34,7 @@ class ProveedoresControllerTest extends MockitoFactory {
     private BcpProveedorService service;
 
     @Test
-    void registrarProveedor() {
+    void saveBcpProveedor() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -43,17 +45,17 @@ class ProveedoresControllerTest extends MockitoFactory {
         body.put("telefono", "TEST_TLF");
         body.put("nombreEmpresa", "TEST_EMP");
 
-        var listaProv = service.buscarAllProveedores();
+        BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
 
-        Mockito.when(service.registrarProveedor(body)).thenReturn(listaProv);
-        ResponseEntity<?> responseEntity = controller.registrarProveedor(body);
+        Mockito.when(service.saveBcpProveedor(body)).thenReturn(proveedor);
+        ResponseEntity<?> responseEntity = controller.saveBcpProveedor(body);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).registrarProveedor(body);
+        Mockito.verify(service).saveBcpProveedor(body);
     }
 
     @Test
-    void actualizarProveedor() {
+    void updateBcpProveedor() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -64,12 +66,12 @@ class ProveedoresControllerTest extends MockitoFactory {
         body.put("telefono", "TEST_TLF");
         body.put("nombreEmpresa", "TEST_EMP");
 
-        var listaProv = service.buscarAllProveedores();
+        BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
 
-        Mockito.when(service.actualizarProveedor(body)).thenReturn(listaProv);
-        ResponseEntity<?> responseEntity = controller.actualizarProveedor(body);
+        Mockito.when(service.updateBcpProveedor(body)).thenReturn(proveedor);
+        ResponseEntity<?> responseEntity = controller.updateBcpProveedor(body);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).actualizarProveedor(body);
+        Mockito.verify(service).updateBcpProveedor(body);
     }
 }

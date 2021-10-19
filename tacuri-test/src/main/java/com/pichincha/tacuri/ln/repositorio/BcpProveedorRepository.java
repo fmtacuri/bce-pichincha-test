@@ -9,15 +9,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- *
  * @author fmtacuri
+ * @version 1.1
  */
 @Repository
 public interface BcpProveedorRepository extends JpaRepository<BcpProveedor, Long> {
 
     @Query(value = "select p.* from bcp_proveedor p where p.cod_proveedor = :codigo", nativeQuery = true)
-    BcpProveedor buscarProveedorByCodigo(@Param("codigo") Long codigo);
+    BcpProveedor findBcpProveedorByCodProveedor(@Param("codigo") Long codigo);
 
     @Query(value = "select p.* from bcp_proveedor p", nativeQuery = true)
-    List<BcpProveedor> buscarAllProveedores();
+    List<BcpProveedor> findBcpProveedorAll();
 }
