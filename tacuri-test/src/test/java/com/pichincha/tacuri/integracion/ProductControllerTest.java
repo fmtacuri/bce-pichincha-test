@@ -2,7 +2,6 @@ package com.pichincha.tacuri.integracion;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pichincha.tacuri.MockitoFactory;
-import com.pichincha.tacuri.TacuriTestApplication;
 import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.dto.ProviderDTO;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
@@ -17,7 +16,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
@@ -37,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @WebMvcTest(ProductController.class)
-@SpringBootTest(classes = TacuriTestApplication.class)
 class ProductControllerTest extends MockitoFactory {
 
     @Autowired
@@ -84,6 +81,15 @@ class ProductControllerTest extends MockitoFactory {
         return product;
     }
 
+    private List<ProviderDTO> setPedidosObject() {
+        List<ProviderDTO> listaProviders = new ArrayList<>();
+        ProviderDTO providerDTO = new ProviderDTO();
+        providerDTO.setProveedor(setProvider());
+        providerDTO.setListaProductos(setListaProductos());
+
+        return listaProviders;
+    }
+
     private List<ProductProyection> setListaProductos() {
         ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
         ProductProyection projection = factory.createProjection(ProductProyection.class);
@@ -116,10 +122,7 @@ class ProductControllerTest extends MockitoFactory {
     }
 
     private void mockFindProductosByStockAndProveedor() {
-        List<ProviderDTO> listaProviders = new ArrayList<>();
-        ProviderDTO providerDTO = new ProviderDTO();
-        providerDTO.setProveedor(setProvider());
-        providerDTO.setListaProductos(setListaProductos());
+        List<ProviderDTO> listaProviders = setPedidosObject();
         given(service.findProductosByStockAndProveedor()).willReturn(listaProviders);
     }
 
