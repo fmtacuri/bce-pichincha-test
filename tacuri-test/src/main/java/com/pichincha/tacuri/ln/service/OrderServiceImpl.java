@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private BcpInventarioRepository inventaryRepository;
 
     @Transactional
+    @Override
     public OrderDTO saveOrder(ProductDTO productoDTO) {
         OrderDTO response;
         try {
@@ -65,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
         return response;
     }
 
+    @Override
     public List<OrderDTO> findPedidosByIdClienteAndFecha(OrderDateDTO orderDateDTO) {
         List<OrderDTO> listaPedidosRecuperados = new ArrayList<>();
         try {
@@ -90,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
+    @Override
     public void deleteOrder(Long id) {
         try {
             var listaDetalles = bcpDetPedidoRepository.findBcpDetPedidoByCodFactura(id)
@@ -108,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
     public OrderDTO registerPedido(BcpHeadPedido cabecera, List<BcpDetPedido> listaPedidos, Long contador) {
         List<BcpDetPedido> listaGuardados = new ArrayList<>();
         List<BcpDetPedido> listaNoGuardados = new ArrayList<>();

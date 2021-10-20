@@ -26,6 +26,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Transactional
+    @Override
     public BcpProveedor saveBcpProveedor(BcpProveedor proveedor) {
         BcpProveedor bcpProveedor = null;
         try {
@@ -43,6 +44,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Transactional
+    @Override
     public BcpProveedor updateBcpProveedor(BcpProveedor proveedor) {
         BcpProveedor bcpProveedor;
         try {
