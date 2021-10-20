@@ -1,4 +1,4 @@
-package com.pichincha.tacuri.ln.servicio;
+package com.pichincha.tacuri.ln.service;
 
 import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.dto.ProviderDTO;
@@ -8,9 +8,9 @@ import com.pichincha.tacuri.ln.entity.BcpProveedor;
 import com.pichincha.tacuri.ln.repository.BcpInventarioRepository;
 import com.pichincha.tacuri.ln.repository.BcpProductoRepository;
 import com.pichincha.tacuri.ln.repository.BcpProveedorRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -21,16 +21,18 @@ import java.util.Objects;
  * @author fmtacuri
  * @version 1.1
  */
-@Service
-@RequiredArgsConstructor
+@Component
 @Log4j2
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 
-    private final BcpProductoRepository productRepository;
+    @Autowired
+    private BcpProductoRepository productRepository;
 
-    private final BcpInventarioRepository inventaryRepository;
+    @Autowired
+    private BcpInventarioRepository inventaryRepository;
 
-    private final BcpProveedorRepository providerRepository;
+    @Autowired
+    private BcpProveedorRepository providerRepository;
 
     @Transactional
     public BcpProducto saveBcpProduct(BcpProducto producto) {

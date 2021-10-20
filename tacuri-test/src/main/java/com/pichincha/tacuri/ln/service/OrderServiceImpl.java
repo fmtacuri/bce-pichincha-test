@@ -1,4 +1,4 @@
-package com.pichincha.tacuri.ln.servicio;
+package com.pichincha.tacuri.ln.service;
 
 import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.dto.OrderDTO;
@@ -11,9 +11,9 @@ import com.pichincha.tacuri.ln.repository.BcpDetPedidoRepository;
 import com.pichincha.tacuri.ln.repository.BcpHeadPedidoRepository;
 import com.pichincha.tacuri.ln.repository.BcpInventarioRepository;
 import com.pichincha.tacuri.util.BceConstant;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
@@ -24,16 +24,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author fmtacuri
  * @version 1.1
  */
-@Service
-@RequiredArgsConstructor
+@Component
 @Log4j2
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
 
-    private final BcpHeadPedidoRepository bcpHeadPedidoRepository;
+    @Autowired
+    private BcpHeadPedidoRepository bcpHeadPedidoRepository;
 
-    private final BcpDetPedidoRepository bcpDetPedidoRepository;
+    @Autowired
+    private BcpDetPedidoRepository bcpDetPedidoRepository;
 
-    private final BcpInventarioRepository inventaryRepository;
+    @Autowired
+    private BcpInventarioRepository inventaryRepository;
 
     @Transactional
     public OrderDTO saveOrder(ProductDTO productoDTO) {

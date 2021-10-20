@@ -1,7 +1,7 @@
 package com.pichincha.tacuri.unitario;
 
 import com.pichincha.tacuri.MockitoFactory;
-import com.pichincha.tacuri.ln.servicio.OrderService;
+import com.pichincha.tacuri.ln.service.OrderServiceImpl;
 import com.pichincha.tacuri.rest.OrderController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ class OrderControllerTest extends MockitoFactory {
     OrderController controller;
 
     @Mock
-    private OrderService service;
+    private OrderServiceImpl service;
 
     @Test
     void eliminarPedido() {

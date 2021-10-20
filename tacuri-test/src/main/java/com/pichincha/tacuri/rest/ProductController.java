@@ -3,7 +3,8 @@ package com.pichincha.tacuri.rest;
 import com.pichincha.tacuri.ln.dto.ProviderDTO;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
-import com.pichincha.tacuri.ln.servicio.ProductService;
+import com.pichincha.tacuri.ln.service.ProductService;
+import com.pichincha.tacuri.ln.service.ProductServiceImpl;
 import com.pichincha.tacuri.util.BceConstant;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +24,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService productService;
+    private final ProductService service = new ProductServiceImpl();
 
     @PostMapping("/save-product")
     public ResponseEntity<BcpProducto> saveBcpProduct(@NotNull @RequestBody BcpProducto producto) {
         ResponseEntity response;
-        var requestValue = productService.saveBcpProduct(producto);
+        var requestValue = service.saveBcpProduct(producto);
         if (Objects.isNull(requestValue)) {
             response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
@@ -41,7 +42,7 @@ public class ProductController {
     @PostMapping("/save-product-provider")
     public ResponseEntity<BcpInventario> saveBcpInventary(@NotNull @RequestBody BcpInventario inventario) {
         ResponseEntity response;
-        var requestValue = productService.saveBcpInventary(inventario);
+        var requestValue = service.saveBcpInventary(inventario);
         if (Objects.isNull(requestValue)) {
             response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
@@ -53,11 +54,11 @@ public class ProductController {
 
     @GetMapping("/find-provider-product")
     public ResponseEntity<List<ProviderDTO>> findProductosByStockAndProveedor() {
-        return new ResponseEntity<>(productService.findProductosByStockAndProveedor(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findProductosByStockAndProveedor(), HttpStatus.OK);
     }
 
     @PutMapping("/update-product")
     public ResponseEntity<BcpProducto> updateProduct(@NotNull @RequestBody BcpProducto producto) {
-        return new ResponseEntity<>(productService.updateProduct(producto), HttpStatus.OK);
+        return new ResponseEntity<>(service.updateProduct(producto), HttpStatus.OK);
     }
 }

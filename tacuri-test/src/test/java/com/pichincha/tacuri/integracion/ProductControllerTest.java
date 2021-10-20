@@ -8,7 +8,7 @@ import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
 import com.pichincha.tacuri.ln.repository.proyectios.ProductProyection;
-import com.pichincha.tacuri.ln.servicio.ProductService;
+import com.pichincha.tacuri.ln.service.ProductServiceImpl;
 import com.pichincha.tacuri.rest.ProductController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class ProductControllerTest extends MockitoFactory {
     private ObjectMapper mapper;
 
     @MockBean
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Autowired
     private MockMvc mockMvc;
