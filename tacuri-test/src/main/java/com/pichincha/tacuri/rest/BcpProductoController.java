@@ -1,5 +1,6 @@
 package com.pichincha.tacuri.rest;
 
+import com.pichincha.tacuri.ln.dto.ProveedorDTO;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.servicio.BcpProductoService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -51,7 +53,7 @@ public class BcpProductoController {
     }
 
     @GetMapping("/buscar-proveedor-producto")
-    public ResponseEntity<Map<String, Object>> findProductosByStockAndProveedor() {
+    public ResponseEntity<List<ProveedorDTO>> findProductosByStockAndProveedor() {
         return new ResponseEntity<>(productoService.findProductosByStockAndProveedor(), HttpStatus.OK);
     }
 

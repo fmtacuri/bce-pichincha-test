@@ -1,6 +1,7 @@
 package com.pichincha.tacuri.ln.servicio;
 
 import com.pichincha.tacuri.exceptions.CustomException;
+import com.pichincha.tacuri.ln.dto.RegistroPedidosDTO;
 import com.pichincha.tacuri.ln.entity.BcpDetPedido;
 import com.pichincha.tacuri.ln.entity.BcpDetPedidoPK;
 import com.pichincha.tacuri.ln.entity.BcpHeadPedido;
@@ -34,14 +35,12 @@ public class PedidosService {
     private final BcpInventarioRepository inventarioRepository;
 
     @Transactional
-    public Map<String, Object> save(Map<String, Object> body) {
-        Map<String, Object> response = new HashMap<>();
+    public RegistroPedidosDTO save(Map<String, Object> body) {
+        RegistroPedidosDTO response;
         try {
             List<BcpDetPedido> listaPedidos = JsonUtils.jsonToList(body.get("listaPedidos"), BcpDetPedido.class);
-            List<BcpDetPedido> listaGuardados = new ArrayList<>();
-            List<BcpDetPedido> listaNoGuardados = new ArrayList<>();
+
             if (!listaPedidos.isEmpty()) {
-                AtomicInteger index = new AtomicInteger();
                 String idCliente = body.get("idCliente").toString();
                 Date fecha = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD)
                         .parse(body.get("fecha").toString());
@@ -51,28 +50,9 @@ public class PedidosService {
                 cabecera.setCodFac(contadorFact.longValue());
                 cabecera.setFecha(fecha);
                 cabecera.setIdCliente(idCliente);
-                var cabeceraResponse = cabeceraPedido.save(cabecera);
 
-                listaPedidos.forEach(lp -> {
-                    var productoInventario = inventarioRepository
-                            .findBcpInventarioByIdInventario(lp.getCodInventario()).orElse(null);
-                    if (!Objects.isNull(productoInventario) && productoInventario.getStock() > lp.getCantidad()) {
-                        index.getAndIncrement();
-                        lp.setCodFactura(contadorFact.longValue());
-                        lp.setNoFila(index.get());
-                        BcpDetPedido bcpDetPedido = detallePedido.save(lp);
-                        listaGuardados.add(bcpDetPedido);
-                        productoInventario.setStock(productoInventario.getStock() - lp.getCantidad());
-                        inventarioRepository.save(productoInventario);
-                    } else {
-                        log.warn("No se puede Guardar el pedido: " + lp.getCodInventario() + ", por falta de stock");
-                        listaNoGuardados.add(lp);
-                    }
-                });
+                response = registerPedido(cabecera, listaPedidos, contadorFact.longValue());
 
-                response.put("Cabecera_Pedido", cabeceraResponse);
-                response.put("Pedidos_Guardados", listaGuardados);
-                response.put("Pedidos_No_Guardados", listaNoGuardados);
             } else {
                 log.warn("No se puede Guardar un pedido sin detalles");
                 throw new CustomException("No se puede Guardar un pedido sin detalles");
@@ -85,8 +65,8 @@ public class PedidosService {
         return response;
     }
 
-    public Map<String, Object> findPedidosByIdClienteAndFecha(Map<String, Object> body) {
-        Map<String, Object> response = new HashMap<>();
+    public List<RegistroPedidosDTO> findPedidosByIdClienteAndFecha(Map<String, Object> body) {
+        List<RegistroPedidosDTO> listaPedidosRecuperados = new ArrayList<>();
         try {
             Date fechaInicio = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(body.get("fechaInicio").toString());
             Date fechaFin = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(body.get("fechaFin").toString());
@@ -96,17 +76,17 @@ public class PedidosService {
                     .findBcpHeadPedidoByIdClienteAndFecha(idCliente, fechaInicio, fechaFin);
 
             listaCabeceraPedidos.forEach(lp -> {
-                Map<String, Object> mapProveedor = new HashMap<>();
-                mapProveedor.put("Pedido", lp);
-                mapProveedor.put("DetallePedido", detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac())
+                RegistroPedidosDTO pedidosDTO = new RegistroPedidosDTO();
+                pedidosDTO.setCabecera(lp);
+                pedidosDTO.setListaPedidos(detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac())
                         .orElse(Collections.emptyList()));
-                response.put(lp.getCodFac().toString(), mapProveedor);
+                listaPedidosRecuperados.add(pedidosDTO);
             });
         } catch (Exception e) {
             log.error("Error en al recuperarPedidosPorClienteAndFecha");
         }
 
-        return response;
+        return listaPedidosRecuperados;
     }
 
     @Transactional
@@ -126,5 +106,36 @@ public class PedidosService {
         } catch (Exception e) {
             throw new CustomException("No puede eliminar el registro indicado!");
         }
+    }
+
+    public RegistroPedidosDTO registerPedido(BcpHeadPedido cabecera, List<BcpDetPedido> listaPedidos, Long contador) {
+
+        List<BcpDetPedido> listaGuardados = new ArrayList<>();
+        List<BcpDetPedido> listaNoGuardados = new ArrayList<>();
+        RegistroPedidosDTO registroPedidosDTO = new RegistroPedidosDTO();
+
+        registroPedidosDTO.setCabecera(cabeceraPedido.save(cabecera));
+        AtomicInteger index = new AtomicInteger();
+
+        listaPedidos.forEach(lp -> {
+            var productoInventario = inventarioRepository
+                    .findBcpInventarioByIdInventario(lp.getCodInventario()).orElse(null);
+            if (!Objects.isNull(productoInventario) && productoInventario.getStock() > lp.getCantidad()) {
+                index.getAndIncrement();
+                lp.setCodFactura(contador);
+                lp.setNoFila(index.get());
+                BcpDetPedido bcpDetPedido = detallePedido.save(lp);
+                listaGuardados.add(bcpDetPedido);
+                productoInventario.setStock(productoInventario.getStock() - lp.getCantidad());
+                inventarioRepository.save(productoInventario);
+            } else {
+                log.warn("No se puede Guardar el pedido: " + lp.getCodInventario() + ", por falta de stock");
+                listaNoGuardados.add(lp);
+            }
+        });
+        registroPedidosDTO.setListaPedidos(listaGuardados);
+        registroPedidosDTO.setListaNoGuardados(listaNoGuardados);
+
+        return registroPedidosDTO;
     }
 }

@@ -1,6 +1,7 @@
 package com.pichincha.tacuri.ln.servicio;
 
 import com.pichincha.tacuri.exceptions.CustomException;
+import com.pichincha.tacuri.ln.dto.ProveedorDTO;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
@@ -13,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,17 +70,17 @@ public class BcpProductoService {
         return bcpInventario;
     }
 
-    public Map<String, Object> findProductosByStockAndProveedor() {
-        Map<String, Object> response = new HashMap<>();
+    public List<ProveedorDTO> findProductosByStockAndProveedor() {
+        List<ProveedorDTO> listaDto = new ArrayList<>();
         List<BcpProveedor> listaProveedores = proveedorRepository.findBcpProveedorAll();
         listaProveedores.forEach(lp -> {
-            Map<String, Object> mapProveedor = new HashMap<>();
-            mapProveedor.put("proveedor", lp);
-            mapProveedor.put("listaProductos", inventarioRepository.findProductosByProveedorProyection(lp.getCodProveedor()));
-            response.put(lp.getCodProveedor().toString(), mapProveedor);
+            ProveedorDTO proveedorDTO = new ProveedorDTO();
+            proveedorDTO.setProveedor(lp);
+            proveedorDTO.setListaProductos(inventarioRepository.findProductosByProveedorProyection(lp.getCodProveedor()));
+            listaDto.add(proveedorDTO);
         });
 
-        return response;
+        return listaDto;
     }
 
     @Transactional
