@@ -35,13 +35,11 @@ public class ProductService {
     @Transactional
     public BcpProducto saveBcpProduct(BcpProducto producto) {
         BcpProducto bcpProducto = null;
-        try {
-            var productoFind = productRepository
-                    .findBcpProductoByCodProducto(producto.getCodProducto()).orElse(null);
-            if (Objects.isNull(productoFind)){
-                bcpProducto = productRepository.save(producto);
-            }
-        } catch (Exception e) {
+        var productoFind = productRepository
+                .findBcpProductoByCodProducto(producto.getCodProducto()).orElse(null);
+        if (Objects.isNull(productoFind)) {
+            bcpProducto = productRepository.save(producto);
+        } else {
             log.error("No se a podido guardar producto: " + producto.getCodProducto());
             throw new CustomException("Error en saveBcpProducto");
         }
@@ -52,13 +50,11 @@ public class ProductService {
     @Transactional
     public BcpInventario saveBcpInventary(BcpInventario inventario) {
         BcpInventario bcpInventario = null;
-        try {
-            var inventarioFind = inventaryRepository
-                    .findBcpInventarioByIdInventario(inventario.getIdInventario()).orElse(null);
-            if (Objects.isNull(inventarioFind)){
-                bcpInventario = inventaryRepository.save(inventario);
-            }
-        } catch (Exception e) {
+        var inventarioFind = inventaryRepository
+                .findBcpInventarioByIdInventario(inventario.getIdInventario()).orElse(null);
+        if (Objects.isNull(inventarioFind)) {
+            bcpInventario = inventaryRepository.save(inventario);
+        } else {
             log.error("No se a podido guardar saveBcpInventario: " + inventario.getIdInventario());
             throw new CustomException("Error en saveBcpInventario");
         }
