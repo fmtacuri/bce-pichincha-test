@@ -6,6 +6,7 @@ import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.service.ProductService;
 import com.pichincha.tacuri.ln.service.ProductServiceImpl;
 import com.pichincha.tacuri.util.BceConstant;
+import com.pichincha.tacuri.util.factory.BeanFactory;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
