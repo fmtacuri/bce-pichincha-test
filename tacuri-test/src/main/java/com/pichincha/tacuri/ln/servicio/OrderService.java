@@ -1,15 +1,15 @@
 package com.pichincha.tacuri.ln.servicio;
 
 import com.pichincha.tacuri.exceptions.CustomException;
-import com.pichincha.tacuri.ln.dto.PedidoDTO;
-import com.pichincha.tacuri.ln.dto.PedidoFechaDTO;
-import com.pichincha.tacuri.ln.dto.ProductoDTO;
+import com.pichincha.tacuri.ln.dto.OrderDTO;
+import com.pichincha.tacuri.ln.dto.OrderDateDTO;
+import com.pichincha.tacuri.ln.dto.ProductDTO;
 import com.pichincha.tacuri.ln.entity.BcpDetPedido;
 import com.pichincha.tacuri.ln.entity.BcpDetPedidoPK;
 import com.pichincha.tacuri.ln.entity.BcpHeadPedido;
-import com.pichincha.tacuri.ln.repositorio.BcpDetPedidoRepository;
-import com.pichincha.tacuri.ln.repositorio.BcpHeadPedidoRepository;
-import com.pichincha.tacuri.ln.repositorio.BcpInventarioRepository;
+import com.pichincha.tacuri.ln.repository.BcpDetPedidoRepository;
+import com.pichincha.tacuri.ln.repository.BcpHeadPedidoRepository;
+import com.pichincha.tacuri.ln.repository.BcpInventarioRepository;
 import com.pichincha.tacuri.util.BceConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,22 +27,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class PedidosService {
+public class OrderService {
 
-    private final BcpHeadPedidoRepository cabeceraPedido;
+    private final BcpHeadPedidoRepository bcpHeadPedidoRepository;
 
-    private final BcpDetPedidoRepository detallePedido;
+    private final BcpDetPedidoRepository bcpDetPedidoRepository;
 
-    private final BcpInventarioRepository inventarioRepository;
+    private final BcpInventarioRepository inventaryRepository;
 
     @Transactional
-    public PedidoDTO save(ProductoDTO productoDTO) {
-        PedidoDTO response;
+    public OrderDTO saveOrder(ProductDTO productoDTO) {
+        OrderDTO response;
         try {
             if (!productoDTO.getListaPedidos().isEmpty()) {
                 Date fecha = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD)
                         .parse(productoDTO.getFecha());
-                Integer contadorFact = cabeceraPedido.countAllPedidos() + 1;
+                Integer contadorFact = bcpHeadPedidoRepository.countAllPedidos() + 1;
 
                 BcpHeadPedido cabecera = new BcpHeadPedido();
                 cabecera.setCodFac(contadorFact.longValue());
@@ -63,19 +63,19 @@ public class PedidosService {
         return response;
     }
 
-    public List<PedidoDTO> findPedidosByIdClienteAndFecha(PedidoFechaDTO pedidoFechaDTO) {
-        List<PedidoDTO> listaPedidosRecuperados = new ArrayList<>();
+    public List<OrderDTO> findPedidosByIdClienteAndFecha(OrderDateDTO orderDateDTO) {
+        List<OrderDTO> listaPedidosRecuperados = new ArrayList<>();
         try {
-            Date fechaInicio = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(pedidoFechaDTO.getFechaInicio());
-            Date fechaFin = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(pedidoFechaDTO.getFechaFin());
+            Date fechaInicio = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(orderDateDTO.getFechaInicio());
+            Date fechaFin = new SimpleDateFormat(BceConstant.FORMAT_YYYY_MM_DD).parse(orderDateDTO.getFechaFin());
 
-            List<BcpHeadPedido> listaCabeceraPedidos = cabeceraPedido
-                    .findBcpHeadPedidoByIdClienteAndFecha(pedidoFechaDTO.getIdCliente(), fechaInicio, fechaFin);
+            List<BcpHeadPedido> listaCabeceraPedidos = bcpHeadPedidoRepository
+                    .findBcpHeadPedidoByIdClienteAndFecha(orderDateDTO.getIdCliente(), fechaInicio, fechaFin);
 
             listaCabeceraPedidos.forEach(lp -> {
-                PedidoDTO pedidosDTO = new PedidoDTO();
+                OrderDTO pedidosDTO = new OrderDTO();
                 pedidosDTO.setCabecera(lp);
-                pedidosDTO.setListaPedidos(detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac())
+                pedidosDTO.setListaPedidos(bcpDetPedidoRepository.findBcpDetPedidoByCodFactura(lp.getCodFac())
                         .orElse(Collections.emptyList()));
                 pedidosDTO.setListaNoGuardados(Collections.emptyList());
                 listaPedidosRecuperados.add(pedidosDTO);
@@ -88,44 +88,43 @@ public class PedidosService {
     }
 
     @Transactional
-    public void deletePedido(Long id) {
+    public void deleteOrder(Long id) {
         try {
-            var listaDetalles = detallePedido.findBcpDetPedidoByCodFactura(id)
+            var listaDetalles = bcpDetPedidoRepository.findBcpDetPedidoByCodFactura(id)
                     .orElse(Collections.emptyList());
             listaDetalles.forEach(ld -> {
                 BcpDetPedidoPK pedidoPK = new BcpDetPedidoPK();
                 pedidoPK.setCodFactura(ld.getCodFactura());
                 pedidoPK.setNoFila(ld.getNoFila());
-                detallePedido.deleteById(pedidoPK);
+                bcpDetPedidoRepository.deleteById(pedidoPK);
             });
 
-            cabeceraPedido.deleteById(id);
+            bcpHeadPedidoRepository.deleteById(id);
 
         } catch (Exception e) {
             throw new CustomException("No puede eliminar el registro indicado!");
         }
     }
 
-    public PedidoDTO registerPedido(BcpHeadPedido cabecera, List<BcpDetPedido> listaPedidos, Long contador) {
-
+    public OrderDTO registerPedido(BcpHeadPedido cabecera, List<BcpDetPedido> listaPedidos, Long contador) {
         List<BcpDetPedido> listaGuardados = new ArrayList<>();
         List<BcpDetPedido> listaNoGuardados = new ArrayList<>();
-        PedidoDTO registroPedidosDTO = new PedidoDTO();
+        OrderDTO registroPedidosDTO = new OrderDTO();
 
-        registroPedidosDTO.setCabecera(cabeceraPedido.save(cabecera));
+        registroPedidosDTO.setCabecera(bcpHeadPedidoRepository.save(cabecera));
         AtomicInteger index = new AtomicInteger();
 
         listaPedidos.forEach(lp -> {
-            var productoInventario = inventarioRepository
+            var productoInventario = inventaryRepository
                     .findBcpInventarioByIdInventario(lp.getCodInventario()).orElse(null);
             if (!Objects.isNull(productoInventario) && productoInventario.getStock() > lp.getCantidad()) {
                 index.getAndIncrement();
                 lp.setCodFactura(contador);
                 lp.setNoFila(index.get());
-                BcpDetPedido bcpDetPedido = detallePedido.save(lp);
+                BcpDetPedido bcpDetPedido = bcpDetPedidoRepository.save(lp);
                 listaGuardados.add(bcpDetPedido);
                 productoInventario.setStock(productoInventario.getStock() - lp.getCantidad());
-                inventarioRepository.save(productoInventario);
+                inventaryRepository.save(productoInventario);
             } else {
                 log.warn("No se puede Guardar el pedido: " + lp.getCodInventario() + ", por falta de stock");
                 listaNoGuardados.add(lp);

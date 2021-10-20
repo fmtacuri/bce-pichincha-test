@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 @RequiredArgsConstructor
-public class PedidoFechaDTO {
+public class OrderDateDTO {
     String fechaInicio;
     String idCliente;
     String fechaFin;

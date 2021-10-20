@@ -1,6 +1,6 @@
-package com.pichincha.tacuri.ln.repositorio.proyectios;
+package com.pichincha.tacuri.ln.repository.proyectios;
 
-public interface ProductoProyection {
+public interface ProductProyection {
     String getCodProducto();
     String getDescripcion();
     int getStock();

@@ -2,7 +2,7 @@ package com.pichincha.tacuri.ln.servicio;
 
 import com.pichincha.tacuri.exceptions.CustomException;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.repositorio.BcpProveedorRepository;
+import com.pichincha.tacuri.ln.repository.BcpProveedorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,22 +17,22 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class BcpProveedorService {
+public class ProviderService {
 
-    private final BcpProveedorRepository proveedorRepository;
+    private final BcpProveedorRepository providerRepository;
 
     public BcpProveedor findBcpProveedorByCodProveedor(Long codigo) {
-        return proveedorRepository.findBcpProveedorByCodProveedor(codigo).orElse(null);
+        return providerRepository.findBcpProveedorByCodProveedor(codigo).orElse(null);
     }
 
     @Transactional
     public BcpProveedor saveBcpProveedor(BcpProveedor proveedor) {
         BcpProveedor bcpProveedor = null;
         try {
-            var proveedorFind = proveedorRepository
+            var proveedorFind = providerRepository
                     .findBcpProveedorByCodProveedor(proveedor.getCodProveedor()).orElse(null);
             if (Objects.isNull(proveedorFind)){
-                bcpProveedor = proveedorRepository.save(proveedor);
+                bcpProveedor = providerRepository.save(proveedor);
             }
         } catch (Exception e) {
             log.error("No se a podido guardar proveedor: " + proveedor.getCodProveedor());
@@ -46,7 +46,7 @@ public class BcpProveedorService {
     public BcpProveedor updateBcpProveedor(BcpProveedor proveedor) {
         BcpProveedor bcpProveedor;
         try {
-            bcpProveedor = proveedorRepository.save(proveedor);
+            bcpProveedor = providerRepository.save(proveedor);
         } catch (Exception e) {
             log.error("No se a podido actualizar proveedor: " + proveedor.getCodProveedor());
             throw new CustomException("Error en updateBcpProveedor");
