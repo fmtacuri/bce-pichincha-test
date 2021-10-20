@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,9 +26,9 @@ public class BcpProductoController {
     private final BcpProductoService productoService;
 
     @PostMapping("/registrar-producto")
-    public ResponseEntity<BcpProducto> saveBcpProducto(@NotNull @RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpProducto> saveBcpProducto(@NotNull @RequestBody BcpProducto producto) {
         ResponseEntity response;
-        var requestValue = productoService.saveBcpProducto(body);
+        var requestValue = productoService.saveBcpProducto(producto);
         if (Objects.isNull(requestValue)) {
             response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
@@ -40,9 +39,9 @@ public class BcpProductoController {
     }
 
     @PostMapping("/registrar-producto-proveedor")
-    public ResponseEntity<BcpInventario> saveBcpInventario(@NotNull @RequestBody Map<String, Object> body) {
+    public ResponseEntity<BcpInventario> saveBcpInventario(@NotNull @RequestBody BcpInventario inventario) {
         ResponseEntity response;
-        var requestValue = productoService.saveBcpInventario(body);
+        var requestValue = productoService.saveBcpInventario(inventario);
         if (Objects.isNull(requestValue)) {
             response = new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
@@ -58,7 +57,7 @@ public class BcpProductoController {
     }
 
     @PutMapping("/actualizar-producto")
-    public ResponseEntity<BcpProducto> updateBcpProducto(@NotNull @RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(productoService.updateBcpProducto(body), HttpStatus.OK);
+    public ResponseEntity<BcpProducto> updateBcpProducto(@NotNull @RequestBody BcpProducto producto) {
+        return new ResponseEntity<>(productoService.updateBcpProducto(producto), HttpStatus.OK);
     }
 }

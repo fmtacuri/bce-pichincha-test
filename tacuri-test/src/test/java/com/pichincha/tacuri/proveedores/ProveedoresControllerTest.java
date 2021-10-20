@@ -47,11 +47,11 @@ class ProveedoresControllerTest extends MockitoFactory {
 
         BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
 
-        Mockito.when(service.saveBcpProveedor(body)).thenReturn(proveedor);
-        ResponseEntity<?> responseEntity = controller.saveBcpProveedor(body);
+        Mockito.when(service.saveBcpProveedor(proveedor)).thenReturn(proveedor);
+        ResponseEntity<?> responseEntity = controller.saveBcpProveedor(proveedor);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).saveBcpProveedor(body);
+        Mockito.verify(service).saveBcpProveedor(proveedor);
     }
 
     @Test
@@ -68,10 +68,10 @@ class ProveedoresControllerTest extends MockitoFactory {
 
         BcpProveedor proveedor = JsonUtils.mapToObject(body, BcpProveedor.class);
 
-        Mockito.when(service.updateBcpProveedor(body)).thenReturn(proveedor);
-        ResponseEntity<?> responseEntity = controller.updateBcpProveedor(body);
+        Mockito.when(service.updateBcpProveedor(proveedor)).thenReturn(proveedor);
+        ResponseEntity<?> responseEntity = controller.updateBcpProveedor(proveedor);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).updateBcpProveedor(body);
+        Mockito.verify(service).updateBcpProveedor(proveedor);
     }
 }
