@@ -3,7 +3,7 @@ package com.pichincha.tacuri.unitario;
 import com.pichincha.tacuri.MockitoFactory;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
-import com.pichincha.tacuri.ln.servicio.ProductService;
+import com.pichincha.tacuri.ln.service.ProductServiceImpl;
 import com.pichincha.tacuri.rest.ProductController;
 import com.pichincha.tacuri.util.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class ProductControllerTest extends MockitoFactory {
     ProductController controller;
 
     @Mock
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Test
     void saveBcpInventario() {

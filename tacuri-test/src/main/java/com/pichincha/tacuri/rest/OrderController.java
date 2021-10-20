@@ -3,7 +3,8 @@ package com.pichincha.tacuri.rest;
 import com.pichincha.tacuri.ln.dto.OrderDTO;
 import com.pichincha.tacuri.ln.dto.OrderDateDTO;
 import com.pichincha.tacuri.ln.dto.ProductDTO;
-import com.pichincha.tacuri.ln.servicio.OrderService;
+import com.pichincha.tacuri.ln.service.OrderService;
+import com.pichincha.tacuri.ln.service.OrderServiceImpl;
 import com.pichincha.tacuri.util.BceConstant;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +23,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderService orderService;
+    private final OrderService service = new OrderServiceImpl();
 
     @PostMapping("/save-order")
     public ResponseEntity<OrderDTO> saveOrder(@NotNull @RequestBody ProductDTO productoDTO) {
-        return new ResponseEntity<>(orderService.saveOrder(productoDTO), HttpStatus.OK);
+        return new ResponseEntity<>(service.saveOrder(productoDTO), HttpStatus.OK);
     }
 
     @PostMapping("/find-order-date")
     public ResponseEntity<List<OrderDTO>> findPedidosByIdClienteAndFecha(@NotNull @RequestBody OrderDateDTO orderDateDTO) {
-        return new ResponseEntity<>(orderService.findPedidosByIdClienteAndFecha(orderDateDTO), HttpStatus.OK);
+        return new ResponseEntity<>(service.findPedidosByIdClienteAndFecha(orderDateDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-order/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable("id") Long id) {
-        orderService.deleteOrder(id);
+        service.deleteOrder(id);
         return new ResponseEntity<>("OK: Registro eliminado correctamente.", HttpStatus.OK);
     }
 }

@@ -2,7 +2,7 @@ package com.pichincha.tacuri.unitario;
 
 import com.pichincha.tacuri.MockitoFactory;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.servicio.ProviderService;
+import com.pichincha.tacuri.ln.service.ProviderServiceImpl;
 import com.pichincha.tacuri.rest.ProviderController;
 import com.pichincha.tacuri.util.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class ProviderControllerTest extends MockitoFactory {
     ProviderController controller;
 
     @Mock
-    private ProviderService service;
+    private ProviderServiceImpl service;
 
     @Test
     void saveBcpProveedor() {
