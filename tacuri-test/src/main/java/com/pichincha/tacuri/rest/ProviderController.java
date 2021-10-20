@@ -4,6 +4,7 @@ import com.pichincha.tacuri.ln.entity.BcpProveedor;
 import com.pichincha.tacuri.ln.service.ProviderService;
 import com.pichincha.tacuri.ln.service.ProviderServiceImpl;
 import com.pichincha.tacuri.util.BceConstant;
+import com.pichincha.tacuri.util.factory.BeanFactory;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProviderController {
 
-    private final ProviderService service = new ProviderServiceImpl();
+    private ProviderService service = BeanFactory.getBean(ProviderServiceImpl.class);
 
     @GetMapping("/{codigo}")
     public ResponseEntity<BcpProveedor> findBcpProveedorByCodProveedor(@NotNull @PathVariable("codigo") Long codigo) {
