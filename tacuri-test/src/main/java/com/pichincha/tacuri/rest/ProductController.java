@@ -25,7 +25,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private ProductService service = BeanFactory.getBean(ProductServiceImpl.class);
+    //    private ProductService service = BeanFactory.getBean(ProductServiceImpl.class);
+    private final ProductService service = new ProductServiceImpl();
 
     @PostMapping("/save-product")
     public ResponseEntity<BcpProducto> saveBcpProduct(@NotNull @RequestBody BcpProducto producto) {

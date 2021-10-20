@@ -22,7 +22,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProviderController {
 
-    private ProviderService service = BeanFactory.getBean(ProviderServiceImpl.class);
+    //    private ProviderService service = BeanFactory.getBean(ProviderServiceImpl.class);
+    private final ProviderService service = new ProviderServiceImpl();
+
 
     @GetMapping("/{codigo}")
     public ResponseEntity<BcpProveedor> findBcpProveedorByCodProveedor(@NotNull @PathVariable("codigo") Long codigo) {

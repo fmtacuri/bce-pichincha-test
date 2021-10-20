@@ -24,7 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private OrderService service = BeanFactory.getBean(OrderServiceImpl.class);
+//    private OrderService service = BeanFactory.getBean(OrderServiceImpl.class);
+    private final OrderService service = new OrderServiceImpl();
 
     @PostMapping("/save-order")
     public ResponseEntity<OrderDTO> saveOrder(@NotNull @RequestBody ProductDTO productoDTO) {

@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private BcpProveedorRepository providerRepository;
 
     @Transactional
+    @Override
     public BcpProducto saveBcpProduct(BcpProducto producto) {
         BcpProducto bcpProducto = null;
         var productoFind = productRepository
@@ -50,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional
+    @Override
     public BcpInventario saveBcpInventary(BcpInventario inventario) {
         BcpInventario bcpInventario = null;
         var inventarioFind = inventaryRepository
@@ -64,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
         return bcpInventario;
     }
 
+    @Override
     public List<ProviderDTO> findProductosByStockAndProveedor() {
         List<ProviderDTO> listaDto = new ArrayList<>();
         List<BcpProveedor> listaProveedores = providerRepository.findBcpProveedorAll();
@@ -78,6 +81,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Transactional
+    @Override
     public BcpProducto updateProduct(BcpProducto producto) {
         BcpProducto bcpProducto;
         try {
