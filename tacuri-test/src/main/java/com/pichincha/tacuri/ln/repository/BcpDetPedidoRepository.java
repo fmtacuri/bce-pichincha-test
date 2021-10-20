@@ -1,4 +1,4 @@
-package com.pichincha.tacuri.ln.repositorio;
+package com.pichincha.tacuri.ln.repository;
 
 import com.pichincha.tacuri.ln.entity.BcpDetPedido;
 import com.pichincha.tacuri.ln.entity.BcpDetPedidoPK;

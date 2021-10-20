@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-public class PedidoDTO {
+public class OrderDTO {
     BcpHeadPedido cabecera;
     List<BcpDetPedido> listaPedidos;
     List<BcpDetPedido> listaNoGuardados;

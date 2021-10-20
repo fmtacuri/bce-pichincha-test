@@ -1,14 +1,13 @@
 package com.pichincha.tacuri.ln.servicio;
 
 import com.pichincha.tacuri.exceptions.CustomException;
-import com.pichincha.tacuri.ln.dto.ProveedorDTO;
+import com.pichincha.tacuri.ln.dto.ProviderDTO;
 import com.pichincha.tacuri.ln.entity.BcpInventario;
 import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.repositorio.BcpInventarioRepository;
-import com.pichincha.tacuri.ln.repositorio.BcpProductoRepository;
-import com.pichincha.tacuri.ln.repositorio.BcpProveedorRepository;
-import com.pichincha.tacuri.util.JsonUtils;
+import com.pichincha.tacuri.ln.repository.BcpInventarioRepository;
+import com.pichincha.tacuri.ln.repository.BcpProductoRepository;
+import com.pichincha.tacuri.ln.repository.BcpProveedorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -26,22 +24,22 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class BcpProductoService {
+public class ProductService {
 
-    private final BcpProductoRepository productoRepository;
+    private final BcpProductoRepository productRepository;
 
-    private final BcpInventarioRepository inventarioRepository;
+    private final BcpInventarioRepository inventaryRepository;
 
-    private final BcpProveedorRepository proveedorRepository;
+    private final BcpProveedorRepository providerRepository;
 
     @Transactional
-    public BcpProducto saveBcpProducto(BcpProducto producto) {
+    public BcpProducto saveBcpProduct(BcpProducto producto) {
         BcpProducto bcpProducto = null;
         try {
-            var productoFind = productoRepository
+            var productoFind = productRepository
                     .findBcpProductoByCodProducto(producto.getCodProducto()).orElse(null);
             if (Objects.isNull(productoFind)){
-                bcpProducto = productoRepository.save(producto);
+                bcpProducto = productRepository.save(producto);
             }
         } catch (Exception e) {
             log.error("No se a podido guardar producto: " + producto.getCodProducto());
@@ -52,13 +50,13 @@ public class BcpProductoService {
     }
 
     @Transactional
-    public BcpInventario saveBcpInventario(BcpInventario inventario) {
+    public BcpInventario saveBcpInventary(BcpInventario inventario) {
         BcpInventario bcpInventario = null;
         try {
-            var inventarioFind = inventarioRepository
+            var inventarioFind = inventaryRepository
                     .findBcpInventarioByIdInventario(inventario.getIdInventario()).orElse(null);
             if (Objects.isNull(inventarioFind)){
-                bcpInventario = inventarioRepository.save(inventario);
+                bcpInventario = inventaryRepository.save(inventario);
             }
         } catch (Exception e) {
             log.error("No se a podido guardar saveBcpInventario: " + inventario.getIdInventario());
@@ -68,24 +66,24 @@ public class BcpProductoService {
         return bcpInventario;
     }
 
-    public List<ProveedorDTO> findProductosByStockAndProveedor() {
-        List<ProveedorDTO> listaDto = new ArrayList<>();
-        List<BcpProveedor> listaProveedores = proveedorRepository.findBcpProveedorAll();
+    public List<ProviderDTO> findProductosByStockAndProveedor() {
+        List<ProviderDTO> listaDto = new ArrayList<>();
+        List<BcpProveedor> listaProveedores = providerRepository.findBcpProveedorAll();
         listaProveedores.forEach(lp -> {
-            ProveedorDTO proveedorDTO = new ProveedorDTO();
-            proveedorDTO.setProveedor(lp);
-            proveedorDTO.setListaProductos(inventarioRepository.findProductosByProveedorProyection(lp.getCodProveedor()));
-            listaDto.add(proveedorDTO);
+            ProviderDTO providerDTO = new ProviderDTO();
+            providerDTO.setProveedor(lp);
+            providerDTO.setListaProductos(inventaryRepository.findProductosByProveedorProyection(lp.getCodProveedor()));
+            listaDto.add(providerDTO);
         });
 
         return listaDto;
     }
 
     @Transactional
-    public BcpProducto updateBcpProducto(BcpProducto producto) {
+    public BcpProducto updateProduct(BcpProducto producto) {
         BcpProducto bcpProducto;
         try {
-            bcpProducto = productoRepository.save(producto);
+            bcpProducto = productRepository.save(producto);
         } catch (Exception e) {
             log.error("No se a podido actualizar producto: " + producto.getCodProducto());
             throw new CustomException("Error en updateBcpProducto");

@@ -1,7 +1,7 @@
 package com.pichincha.tacuri.ln.dto;
 
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.repositorio.proyectios.ProductoProyection;
+import com.pichincha.tacuri.ln.repository.proyectios.ProductProyection;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-public class ProveedorDTO {
+public class ProviderDTO {
     BcpProveedor proveedor;
-    List<ProductoProyection> listaProductos;
+    List<ProductProyection> listaProductos;
 }

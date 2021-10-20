@@ -2,8 +2,8 @@ package com.pichincha.tacuri.proveedores;
 
 import com.pichincha.tacuri.MockitoFactory;
 import com.pichincha.tacuri.ln.entity.BcpProveedor;
-import com.pichincha.tacuri.ln.servicio.BcpProveedorService;
-import com.pichincha.tacuri.rest.BcpProveedorController;
+import com.pichincha.tacuri.ln.servicio.ProviderService;
+import com.pichincha.tacuri.rest.ProviderController;
 import com.pichincha.tacuri.util.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,13 +25,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
-class ProveedoresControllerTest extends MockitoFactory {
+class ProviderControllerTest extends MockitoFactory {
 
     @InjectMocks
-    BcpProveedorController controller;
+    ProviderController controller;
 
     @Mock
-    private BcpProveedorService service;
+    private ProviderService service;
 
     @Test
     void saveBcpProveedor() {

@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-public class ProductoDTO {
+public class ProductDTO {
     List<BcpDetPedido> listaPedidos;
     String idCliente;
     String fecha;
