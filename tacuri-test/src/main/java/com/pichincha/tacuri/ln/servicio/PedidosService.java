@@ -77,6 +77,7 @@ public class PedidosService {
                 pedidosDTO.setCabecera(lp);
                 pedidosDTO.setListaPedidos(detallePedido.findBcpDetPedidoByCodFactura(lp.getCodFac())
                         .orElse(Collections.emptyList()));
+                pedidosDTO.setListaNoGuardados(Collections.emptyList());
                 listaPedidosRecuperados.add(pedidosDTO);
             });
         } catch (Exception e) {
