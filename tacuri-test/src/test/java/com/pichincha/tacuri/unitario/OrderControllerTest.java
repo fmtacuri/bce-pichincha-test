@@ -1,4 +1,4 @@
-package com.pichincha.tacuri.pedido;
+package com.pichincha.tacuri.unitario;
 
 import com.pichincha.tacuri.MockitoFactory;
 import com.pichincha.tacuri.ln.servicio.OrderService;
