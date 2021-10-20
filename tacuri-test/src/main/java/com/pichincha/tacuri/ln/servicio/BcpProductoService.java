@@ -35,17 +35,16 @@ public class BcpProductoService {
     private final BcpProveedorRepository proveedorRepository;
 
     @Transactional
-    public BcpProducto saveBcpProducto(Map<String, Object> body) {
+    public BcpProducto saveBcpProducto(BcpProducto producto) {
         BcpProducto bcpProducto = null;
         try {
-            BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
             var productoFind = productoRepository
                     .findBcpProductoByCodProducto(producto.getCodProducto()).orElse(null);
             if (Objects.isNull(productoFind)){
                 bcpProducto = productoRepository.save(producto);
             }
         } catch (Exception e) {
-            log.error("No se a podido guardar producto: " + body);
+            log.error("No se a podido guardar producto: " + producto.getCodProducto());
             throw new CustomException("Error en saveBcpProducto");
         }
 
@@ -53,17 +52,16 @@ public class BcpProductoService {
     }
 
     @Transactional
-    public BcpInventario saveBcpInventario(Map<String, Object> body) {
+    public BcpInventario saveBcpInventario(BcpInventario inventario) {
         BcpInventario bcpInventario = null;
         try {
-            BcpInventario inventario = JsonUtils.mapToObject(body, BcpInventario.class);
             var inventarioFind = inventarioRepository
                     .findBcpInventarioByIdInventario(inventario.getIdInventario()).orElse(null);
             if (Objects.isNull(inventarioFind)){
                 bcpInventario = inventarioRepository.save(inventario);
             }
         } catch (Exception e) {
-            log.error("No se a podido guardar saveBcpInventario: " + body);
+            log.error("No se a podido guardar saveBcpInventario: " + inventario.getIdInventario());
             throw new CustomException("Error en saveBcpInventario");
         }
 
@@ -84,13 +82,12 @@ public class BcpProductoService {
     }
 
     @Transactional
-    public BcpProducto updateBcpProducto(Map<String, Object> body) {
+    public BcpProducto updateBcpProducto(BcpProducto producto) {
         BcpProducto bcpProducto;
         try {
-            BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
             bcpProducto = productoRepository.save(producto);
         } catch (Exception e) {
-            log.error("No se a podido actualizar producto: " + body);
+            log.error("No se a podido actualizar producto: " + producto.getCodProducto());
             throw new CustomException("Error en updateBcpProducto");
         }
 

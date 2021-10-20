@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -37,12 +36,12 @@ public class BcpProveedorController {
     }
 
     @PostMapping("/guardar-proveedor")
-    public ResponseEntity<BcpProveedor> saveBcpProveedor(@NotNull @RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(proveedorService.saveBcpProveedor(body), HttpStatus.OK);
+    public ResponseEntity<BcpProveedor> saveBcpProveedor(@NotNull @RequestBody BcpProveedor proveedor) {
+        return new ResponseEntity<>(proveedorService.saveBcpProveedor(proveedor), HttpStatus.OK);
     }
 
     @PutMapping("/actualizar-proveedor")
-    public ResponseEntity<BcpProveedor> updateBcpProveedor(@NotNull @RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(proveedorService.updateBcpProveedor(body), HttpStatus.OK);
+    public ResponseEntity<BcpProveedor> updateBcpProveedor(@NotNull @RequestBody BcpProveedor proveedor) {
+        return new ResponseEntity<>(proveedorService.updateBcpProveedor(proveedor), HttpStatus.OK);
     }
 }

@@ -48,11 +48,11 @@ class ProductosControllerTest extends MockitoFactory {
 
         BcpInventario inventario = JsonUtils.mapToObject(body, BcpInventario.class);
 
-        Mockito.when(service.saveBcpInventario(body)).thenReturn(inventario);
-        ResponseEntity<?> responseEntity = controller.saveBcpInventario(body);
+        Mockito.when(service.saveBcpInventario(inventario)).thenReturn(inventario);
+        ResponseEntity<?> responseEntity = controller.saveBcpInventario(inventario);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).saveBcpInventario(body);
+        Mockito.verify(service).saveBcpInventario(inventario);
     }
 
     @Test
@@ -66,10 +66,10 @@ class ProductosControllerTest extends MockitoFactory {
 
         BcpProducto producto = JsonUtils.mapToObject(body, BcpProducto.class);
 
-        Mockito.when(service.updateBcpProducto(body)).thenReturn(producto);
-        ResponseEntity<?> responseEntity = controller.updateBcpProducto(body);
+        Mockito.when(service.updateBcpProducto(producto)).thenReturn(producto);
+        ResponseEntity<?> responseEntity = controller.updateBcpProducto(producto);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        Mockito.verify(service).updateBcpProducto(body);
+        Mockito.verify(service).updateBcpProducto(producto);
     }
 }

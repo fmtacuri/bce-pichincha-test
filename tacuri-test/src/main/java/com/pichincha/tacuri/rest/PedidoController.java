@@ -1,6 +1,8 @@
 package com.pichincha.tacuri.rest;
 
-import com.pichincha.tacuri.ln.dto.RegistroPedidosDTO;
+import com.pichincha.tacuri.ln.dto.PedidoDTO;
+import com.pichincha.tacuri.ln.dto.PedidoFechaDTO;
+import com.pichincha.tacuri.ln.dto.ProductoDTO;
 import com.pichincha.tacuri.ln.servicio.PedidosService;
 import com.pichincha.tacuri.util.BceConstant;
 import com.sun.istack.NotNull;
@@ -10,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author fmtacuri
@@ -24,13 +25,13 @@ public class PedidoController {
     private final PedidosService pedidosService;
 
     @PostMapping("/guardar-pedido")
-    public ResponseEntity<RegistroPedidosDTO> save(@NotNull @RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(pedidosService.save(body), HttpStatus.OK);
+    public ResponseEntity<PedidoDTO> save(@NotNull @RequestBody ProductoDTO productoDTO) {
+        return new ResponseEntity<>(pedidosService.save(productoDTO), HttpStatus.OK);
     }
 
     @PostMapping("/buscar-pedidos-fecha")
-    public ResponseEntity<List<RegistroPedidosDTO>> findPedidosByIdClienteAndFecha(@NotNull @RequestBody Map<String, Object> body) {
-        return new ResponseEntity<>(pedidosService.findPedidosByIdClienteAndFecha(body), HttpStatus.OK);
+    public ResponseEntity<List<PedidoDTO>> findPedidosByIdClienteAndFecha(@NotNull @RequestBody PedidoFechaDTO pedidoFechaDTO) {
+        return new ResponseEntity<>(pedidosService.findPedidosByIdClienteAndFecha(pedidoFechaDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("eliminar-pedido/{id}")

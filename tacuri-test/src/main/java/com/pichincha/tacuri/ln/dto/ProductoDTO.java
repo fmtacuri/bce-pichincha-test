@@ -1,7 +1,6 @@
 package com.pichincha.tacuri.ln.dto;
 
 import com.pichincha.tacuri.ln.entity.BcpDetPedido;
-import com.pichincha.tacuri.ln.entity.BcpHeadPedido;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -13,8 +12,8 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-public class RegistroPedidosDTO {
-    BcpHeadPedido cabecera;
+public class ProductoDTO {
     List<BcpDetPedido> listaPedidos;
-    List<BcpDetPedido> listaNoGuardados;
+    String idCliente;
+    String fecha;
 }
