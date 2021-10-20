@@ -6,6 +6,7 @@ import com.pichincha.tacuri.ln.entity.BcpProducto;
 import com.pichincha.tacuri.ln.service.ProductService;
 import com.pichincha.tacuri.ln.service.ProductServiceImpl;
 import com.pichincha.tacuri.util.BceConstant;
+import com.pichincha.tacuri.util.factory.BeanFactory;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService service = new ProductServiceImpl();
+    private ProductService service = BeanFactory.getBean(ProductServiceImpl.class);
 
     @PostMapping("/save-product")
     public ResponseEntity<BcpProducto> saveBcpProduct(@NotNull @RequestBody BcpProducto producto) {
