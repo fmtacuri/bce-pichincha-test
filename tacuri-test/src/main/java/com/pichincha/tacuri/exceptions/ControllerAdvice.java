@@ -25,27 +25,27 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
                 .description(request.getDescription(false))
                 .build();
     }
-
-    @ExceptionHandler(CustomException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorMessage globalExceptionHandler(CustomException ex, WebRequest request) {
-        return ErrorMessage.builder()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .timestamp(new Date())
-                .message(ex.getMessage())
-                .description(request.getDescription(false))
-                .build();
-    }
-
-    @ExceptionHandler(CustomException.class)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ErrorMessage resourceNoContentException(CustomException ex, WebRequest request) {
-        return ErrorMessage.builder()
-                .statusCode(HttpStatus.NO_CONTENT.value())
-                .timestamp(new Date())
-                .message(ex.getMessage())
-                .description(request.getDescription(false))
-                .build();
-    }
+//
+//    @ExceptionHandler(CustomException.class)
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ErrorMessage globalExceptionHandler(CustomException ex, WebRequest request) {
+//        return ErrorMessage.builder()
+//                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+//                .timestamp(new Date())
+//                .message(ex.getMessage())
+//                .description(request.getDescription(false))
+//                .build();
+//    }
+//
+//    @ExceptionHandler(CustomException.class)
+//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+//    public ErrorMessage resourceNoContentException(CustomException ex, WebRequest request) {
+//        return ErrorMessage.builder()
+//                .statusCode(HttpStatus.NO_CONTENT.value())
+//                .timestamp(new Date())
+//                .message(ex.getMessage())
+//                .description(request.getDescription(false))
+//                .build();
+//    }
 }
 
